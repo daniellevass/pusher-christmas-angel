@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       try {
         await new Promise((resolve, reject) => {
           pusher.trigger
-            ('angel', { colour },
+            ('angel', "new-colour", { colour },
             err => {
               if (err) return reject(err)
               resolve()
@@ -22,9 +22,10 @@ module.exports = async (req, res) => {
           )
         }
         )
-        console.log(colour)
+
         res.status(200).send()
     } catch(e) {
         console.log(e.message)
+        res.status(501).send()
     }
 }
