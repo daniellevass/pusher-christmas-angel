@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta charset="UTF-8">
+  <body>
+    <div class="container">
+      <h1 class="display-4">Pusher's Christmas Angel</h1>
+
+      <div class="row">
+        <div class="col-4">
+
+          <button class="col-sm"
+          id="11"
+          onclick="sendColour('red')">Red</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script>
+
+      let sendColour = colour => {
+        fetch("api/colour", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ colour })
+        }).then(response => console.log(response))
+
+        return
+    }
+
+    </script>
+  </body>
+</html>
