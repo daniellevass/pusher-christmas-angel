@@ -40,6 +40,15 @@
       </div>
     </div>
 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-48817663-5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-48817663-5');
+  </script>
+
+
     <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -60,6 +69,9 @@
       }
 
       let sendColour = colour => {
+
+        gtag('event', 'send_colour', {'colour': colour});
+
         fetch("api/colour", {
           method: "POST",
           headers: {
