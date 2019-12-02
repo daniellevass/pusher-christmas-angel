@@ -12,10 +12,30 @@
 
       <div class="row">
         <div class="col-4">
+          <h3>Set Hex Colour 🖍</h3>
+          <div class="input-group mb-2">
 
-          <button class="col-sm"
-          id="11"
-          onclick="sendColour('red')">Red</button>
+          <div class="input-group-prepend">
+            <div class="input-group-text">#</div>
+          </div>
+          <input type="text" class="form-control" id="txtColour"
+          placeholder="ffcc00">
+        </div>
+
+          <button type="button" class="btn btn-light"
+          onclick="sendHexColour()">Send hex</button>
+          <hr/>
+          <h3>Special Modes ✨</h3>
+            <button type="button" class="btn btn-light"
+            onclick="sendColour('pusher')">Pusher</button>
+            <button type="button" class="btn btn-light"
+            onclick="sendColour('pusher-beams')">Pusher Beams</button>
+            <button type="button" class="btn btn-light"
+            onclick="sendColour('pusher-channels')">Pusher Channels</button>
+            <button type="button" class="btn btn-light"
+            onclick="sendColour('pusher-chatkit')">Pusher Chatkit</button>
+            <hr/>
+
         </div>
       </div>
     </div>
@@ -27,6 +47,17 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
     <script>
+
+      let sendHexColour = () => {
+
+        let colour = document.getElementById("txtColour").value
+        if (colour.length != 6) {
+          alert("hex colour needs to be 6 characters, without the #")
+        } else {
+          sendColour("#" + colour)
+        }
+
+      }
 
       let sendColour = colour => {
         fetch("api/colour", {
