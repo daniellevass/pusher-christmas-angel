@@ -11,16 +11,23 @@ const pusher = new Pusher({
 module.exports = async (req, res) => {
     let inputColour = req.body.colour;
     let responseColour = req.body.colour;
+    let data = { "responseColour" : inputColour}
 
     //if it's a hex colour we need to convert to rgb
     if (inputColour.substring(0,1) == "#") {
-      responseColour = hexToRgb(inputColour)
+      let rgb = hexToRgb(inputColour);
+      data.r = rgb.r;
+      data.g = rgb.g;
+      data.b = rgb.b;
+
     }
 
       try {
         await new Promise((resolve, reject) => {
           pusher.trigger
-            ('angel', "new-colour", { responseColour },
+            ('angel',
+              "new-colour",
+              data,
             err => {
               if (err) return reject(err)
               resolve()
@@ -44,6 +51,6 @@ module.exports = async (req, res) => {
         b: parseInt(result[3], 16)
       } : null;
 
-      return `${res.r},${res.g},${res.b}`;
+      return res;
     }
 }
