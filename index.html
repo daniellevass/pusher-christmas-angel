@@ -12,18 +12,33 @@
 
       <div class="row">
         <div class="col-4">
-          <h3>Set Hex Colour 🖍</h3>
+
+          <h3>Hex Colour 🖍</h3>
           <div class="input-group mb-2">
 
-          <div class="input-group-prepend">
-            <div class="input-group-text">#</div>
+            <div class="input-group-prepend">
+              <div class="input-group-text">#</div>
+            </div>
+            <input type="text" class="form-control" id="txtColour"
+            placeholder="ffcc00">
           </div>
-          <input type="text" class="form-control" id="txtColour"
-          placeholder="ffcc00">
-        </div>
 
           <button type="button" class="btn btn-light"
           onclick="sendHexColour()">Send hex</button>
+
+          <hr/>
+          <h3>Simple Colour ✏️</h3>
+            <button type="button" class="btn btn-danger"
+            onclick="sendSimpleColour('red')">Red</button>
+            <button type="button" class="btn btn-warning"
+            onclick="sendSimpleColour('yellow')">Yellow</button>
+            <button type="button" class="btn btn-success"
+            onclick="sendSimpleColour('green')">Green</button>
+            <button type="button" class="btn btn-primary"
+            onclick="sendSimpleColour('blue')">Blue</button>
+            <button type="button" class="btn btn-light"
+            onclick="sendSimpleColour('white')">White</button>
+
           <hr/>
           <h3>Special Modes ✨</h3>
             <button type="button" class="btn btn-light"
@@ -36,8 +51,14 @@
             onclick="sendColour('pusher-chatkit')">Pusher Chatkit</button>
             <hr/>
 
+            <h3>Recent Events 💌</h3>
+            <div id="containerMessages">
+
+            </div>
+
         </div>
       </div>
+
     </div>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-48817663-5"></script>
@@ -54,8 +75,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
 
     <script>
+
+    function connectToPusher() {
+      var pusher = new Pusher('5b1e6772b0fa4040f5a6', {
+        cluster: 'eu',
+        forceTLS: true
+      });
+
+      var channel = pusher.subscribe('angel');
+      channel.bind('new-colour', function(data) {
+        console.log(JSON.stringify(data));
+         let element = `<span class="badge badge-secondary"
+         style="background-color:${data.responseColour};">${data.responseColour}</span>`
+        document.getElementById('containerMessages').insertAdjacentHTML('beforeend', element);
+      });
+    }
+
+    connectToPusher()
+
+    let sendSimpleColour= colourWord => {
+      if (colourWord == "red") {
+        sendColour("#dc3545")
+      } else if (colourWord == "yellow") {
+        sendColour("#ffc107")
+      } else if (colourWord == "green") {
+        sendColour("#28a745")
+      } else if (colourWord == "blue") {
+        sendColour("#007bff")
+      } else if (colourWord == "white") {
+        sendColour("#ffffff")
+      }
+
+    }
 
       let sendHexColour = () => {
 
@@ -70,7 +124,11 @@
 
       let sendColour = colour => {
 
-        gtag('event', 'send_colour', {'colour': colour});
+        gtag('event', "send-color", {
+              'event_category': "colour",
+              'event_label': "colour",
+              'value': colour
+            });
 
         fetch("api/colour", {
           method: "POST",
